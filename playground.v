@@ -59,8 +59,16 @@ Qed.
 
 Lemma leq_mul22 m n1 n2 : (m * n1 <= m * n2) = (m == 0) || (n1 <= n2).
 Proof.
-  unfold leq.
-  rewrite /leq.
+  (* Pattern Matching Series!! *)
+  (* unfold: rewrite [in LHS]/leq. *)
+  (* fold: rewrite -/(leq _ _). *)
+  (* rewrite and drop: rewrite {}IHn *)
+  (* subrewrite: rewrite -[n1]/(0 + n1) *)
+  rewrite [n1 <= _ ] leqE.
+  rewrite [in X in X = _] leqE.
+  rewrite -[_ || _] muln_eq0.
+  by rewrite -mulnBr.
+Qed.
 
 (*
 Section Chinese.
